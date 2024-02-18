@@ -1,0 +1,12 @@
+th {
+  text-align: center;
+  font-weight: normal;
+}
+
+th.small {
+  width: 9em; /* Give whatever width you want */
+  word-wrap: break-word;
+}
+
+@media print {
+}
