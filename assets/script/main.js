@@ -15,7 +15,7 @@ $("#add-row").click(function () {
       <input
         class="form-control form-control-sm"
         type="number"
-        name="sr_no"
+        name="srNo"
         required
       />
     </td>
@@ -24,6 +24,7 @@ $("#add-row").click(function () {
         class="form-control form-control-sm"
         type="text"
         placeholder="CFS/ CWC CHARGES"
+        name="cwcCharges"
         required
       />
     </td>
@@ -39,14 +40,14 @@ $("#add-row").click(function () {
       <input
         class="form-control form-control-sm"
         type="number"
-        name="bm_wt_rate"
+        name="bmWtRate"
         required
       />
     </td>
     <td>
       <select
         class="form-select form-select-sm"
-        name="currency_symbol"
+        name="currencySymbol"
         required
       >
         <option selected value="INR">INR</option>
@@ -63,7 +64,7 @@ $("#add-row").click(function () {
       <input
         class="form-control form-control-sm"
         type="number"
-        name="exchange_rate"
+        name="exchangeRate"
         required
       />
     </td>
@@ -72,7 +73,7 @@ $("#add-row").click(function () {
         class="form-control form-control-sm"
         type="number"
         min="0"
-        name="non_taxable_amount"
+        name="nonTaxableAmount"
       />
     </td>
     <td class="bg-info-subtle">
@@ -80,7 +81,7 @@ $("#add-row").click(function () {
         class="form-control form-control-sm"
         type="number"
         min="0"
-        name="taxable_amount"
+        name="taxableAmount"
         readonly
       />
     </td>
@@ -89,14 +90,14 @@ $("#add-row").click(function () {
         class="form-control form-control-sm"
         type="number"
         min="0"
-        name="cgst_percentage"
+        name="cgstPercentage"
       />
     </td>
     <td class="bg-info-subtle">
       <input
         class="form-control form-control-sm"
         type="text"
-        name="cgst_tax"
+        name="cgstTax"
         readonly
       />
     </td>
@@ -105,14 +106,14 @@ $("#add-row").click(function () {
         class="form-control form-control-sm"
         type="number"
         min="0"
-        name="sgst_percentage"
+        name="sgstPercentage"
       />
     </td>
     <td class="bg-info-subtle">
       <input
         class="form-control form-control-sm"
         type="text"
-        name="sgst_tax"
+        name="sgstTax"
         readonly
       />
     </td>
@@ -121,14 +122,14 @@ $("#add-row").click(function () {
         class="form-control form-control-sm"
         type="number"
         min="0"
-        name="igst_percentage"
+        name="igstPercentage"
       />
     </td>
     <td class="bg-info-subtle">
       <input
         class="form-control form-control-sm"
         type="text"
-        name="igst_tax"
+        name="igstTax"
         readonly
       />
     </td>
@@ -136,11 +137,11 @@ $("#add-row").click(function () {
       <input
         class="form-control form-control-sm"
         type="text"
-        name="total_gst_amount"
+        name="totalGstAmount"
         readonly
       />
     </td>
-  </tr>                  
+  </tr>              
   `;
 
   $("#creditNoteTbl tbody").append(tblRow);
@@ -161,11 +162,12 @@ $("#delete-row").click(function () {
 });
 
 /*
+  Single Row update
   update total_taxable on input change
 */
 $("#creditNoteTbl").on("change", "input", function () {
   var quantity = 0;
-  var bm_wt_rate = 0;
+  var bmWtRate = 0;
   var non_taxable_amount = 0;
   var exchange_rate = 0;
   var cgst_percentage = 0;
@@ -187,57 +189,55 @@ $("#creditNoteTbl").on("change", "input", function () {
           break;
         }
 
-        case "bm_wt_rate": {
-          bm_wt_rate = td.value;
+        case "bmWtRate": {
+          bmWtRate = td.value;
           break;
         }
 
-        case "exchange_rate": {
+        case "exchangeRate": {
           exchange_rate = td.value;
           break;
         }
 
-        case "non_taxable_amount": {
+        case "nonTaxableAmount": {
           non_taxable_amount = td.value;
           break;
         }
 
-        case "taxable_amount": {
-          td.value = quantity * bm_wt_rate * exchange_rate;
+        case "taxableAmount": {
+          td.value = quantity * bmWtRate * exchange_rate;
           break;
         }
 
-        case "cgst_percentage": {
+        case "cgstPercentage": {
           cgst_percentage = td.value;
           break;
         }
 
-        case "sgst_percentage": {
+        case "sgstPercentage": {
           sgst_percentage = td.value;
           break;
         }
 
-        case "igst_percentage": {
+        case "igstPercentage": {
           igst_percentage = td.value;
           break;
         }
 
-        case "cgst_tax": {
+        case "cgstTax": {
           cgst_tax = (
-            Math.round(
-              quantity * bm_wt_rate * exchange_rate * cgst_percentage
-            ) / 100
+            Math.round(quantity * bmWtRate * exchange_rate * cgst_percentage) /
+            100
           ).toFixed(2);
 
           td.value = cgst_tax;
           break;
         }
 
-        case "sgst_tax": {
+        case "sgstTax": {
           sgst_tax = (
-            Math.round(
-              quantity * bm_wt_rate * exchange_rate * sgst_percentage
-            ) / 100
+            Math.round(quantity * bmWtRate * exchange_rate * sgst_percentage) /
+            100
           ).toFixed(2);
 
           td.value = sgst_tax;
@@ -245,18 +245,17 @@ $("#creditNoteTbl").on("change", "input", function () {
           break;
         }
 
-        case "igst_tax": {
+        case "igstTax": {
           igst_tax = (
-            Math.round(
-              quantity * bm_wt_rate * exchange_rate * igst_percentage
-            ) / 100
+            Math.round(quantity * bmWtRate * exchange_rate * igst_percentage) /
+            100
           ).toFixed(2);
 
           td.value = igst_tax;
           break;
         }
 
-        case "total_gst_amount": {
+        case "totalGstAmount": {
           let totalGst =
             parseFloat(cgst_tax) + parseFloat(sgst_tax) + parseFloat(igst_tax);
 
@@ -270,7 +269,9 @@ $("#creditNoteTbl").on("change", "input", function () {
 });
 
 /*
+  Footer row update
   Method to update total_taxable by calculating all rows
+
 */
 var update_total_taxable = () => {
   var total_taxable = 0;
@@ -287,27 +288,27 @@ var update_total_taxable = () => {
     .each((index, td) => {
       var fieldName = td.name;
       switch (fieldName) {
-        case "taxable_amount": {
+        case "taxableAmount": {
           total_taxable = total_taxable + parseFloat(td.value);
           break;
         }
-        case "non_taxable_amount": {
+        case "nonTaxableAmount": {
           non_taxable_amount = non_taxable_amount + parseFloat(td.value);
           break;
         }
-        case "cgst_tax": {
+        case "cgstTax": {
           gst_col_total = gst_col_total + parseFloat(td.value);
           break;
         }
-        case "sgst_tax": {
+        case "sgstTax": {
           sgst_col_total = sgst_col_total + parseFloat(td.value);
           break;
         }
-        case "igst_tax": {
+        case "igstTax": {
           igst_col_total = igst_col_total + parseFloat(td.value);
           break;
         }
-        case "total_gst_amount": {
+        case "totalGstAmount": {
           total_gst_amount = total_gst_amount + parseFloat(td.value);
           break;
         }
@@ -318,19 +319,19 @@ var update_total_taxable = () => {
   total_taxable = isNaN(total_taxable) ? 0 : total_taxable;
   total_gst_amount = isNaN(total_gst_amount) ? 0 : total_gst_amount;
 
-  $("#final_total_gst_amount").html(gst_col_total);
-  $("#final_total_sgst_amount").html(sgst_col_total);
-  $("#final_total_igst_amount").html(igst_col_total);
+  $("#finalTotalGstAmount").html(gst_col_total);
+  $("#finalTotalSgstAmount").html(sgst_col_total);
+  $("#finalTotalIgstAmount").html(igst_col_total);
 
   //sum of gst+sgst+igst
-  $("#final_all_gst_amount").html(
+  $("#finalAllGstAmount").html(
     (Math.round(total_gst_amount * 100) / 100).toFixed(2)
   );
 
-  $("#final_total_taxable").html(
+  $("#finalTotalTaxable").html(
     (Math.round(total_taxable * 100) / 100).toFixed(2)
   );
-  $("#final_non_taxable_amount").html(
+  $("#finalNonTaxableAmount").html(
     (Math.round(non_taxable_amount * 100) / 100).toFixed(2)
   );
 
@@ -340,5 +341,89 @@ var update_total_taxable = () => {
   ).toFixed(2);
 
   //let grand_total = total_taxable + non_taxable_amount + total_gst_amount;
-  $("#grand_total").html(grand_total);
+  $("#grandTotal").html(grand_total);
 };
+
+//form submit
+$("#createInvoice").click(function (event) {
+  /*var forms = document.querySelectorAll(".needs-validation");
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener(
+      "submit",
+      function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          //make ajax call here
+        }
+
+        form.classList.add("was-validated");
+      },
+      false
+    );
+  });*/
+
+  var formData = {
+    clientName: $("#clientName").val(),
+    clientGSTIN: $("#clientGSTIN").val(),
+    clientAddress: $("#clientAddress").val(),
+    creditNoteNo: $("#creditNoteNo").val(),
+    jobNo: $("#jobNo").val(),
+    mblNo: $("#mblNo").val(),
+    hblNo: $("#hblNo").val(),
+    shippingLine: $("#shippingLine").val(),
+    flightVslNo: $("#flightVslNo").val(),
+
+    invoiceDetailLines: [],
+    invoiceFooterLine: {},
+    grandTotal: $("#grandTotal").val(),
+  };
+
+  //loop through each detailLine
+  $("#creditNoteTbl > tbody > tr").each((index, tr) => {
+    var arr = $(tr).find("input");
+
+    const map = new Map();
+    arr.each((index, input) => {
+      map.set(input.name, input.value);
+    });
+
+    const obj = Object.fromEntries(map);
+    console.log(obj);
+    formData.invoiceDetailLines.push(obj);
+  });
+
+  $("#creditNoteTbl > tfoot > tr").each((index, tr) => {
+    var arr = $(tr).find("span");
+
+    const map = new Map();
+    arr[0].each((index, span) => {
+      map.set(span.id, span.innerText);
+    });
+
+    const obj = Object.fromEntries(map);
+    console.log(obj);
+    formData.invoiceFooterLine = obj;
+  });
+
+  event.preventDefault();
+
+  console.log(formData);
+
+  // $.ajax({
+  //   type: "POST",
+  //   url: "/pages/test/",
+  //   data: {
+  //     id: $(this).val(), // < note use of 'this' here
+  //     access_token: $("#access_token").val(),
+  //   },
+  //   success: function (result) {
+  //     alert("ok");
+  //   },
+  //   error: function (result) {
+  //     alert("error");
+  //   },
+  // });
+});
